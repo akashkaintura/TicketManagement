@@ -11,7 +11,26 @@ export default function LoginForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // ... (handle login logic)
+        try {
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (!res.ok) {
+                throw new Error('Failed to login');
+            }
+
+            const data = await res.json();
+            alert('Login successful');
+            router.push('/dashboard');
+        }
+        catch (error) {
+            alert(error.message);
+        }
     };
 
     if (session) {

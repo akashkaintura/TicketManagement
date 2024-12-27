@@ -28,5 +28,23 @@ export default NextAuth({
     pages: {
         signIn: '/login',
         signOut: '/logout',
+        newUser: '/register',
+    },
+    callbacks: {
+        async session({ session, user }) {
+            session.user.id = user.id;
+            return session;
+        },
+        async register({ name, email, password }) {
+            const user = await prisma.user.create({
+                data: {
+                    email,
+                    password,
+                    name,
+                },
+            });
+
+            return user;
+        },
     },
 });
