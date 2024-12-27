@@ -3,9 +3,7 @@ import { useState, useEffect } from 'react';
 import {
     Card,
     CardContent,
-    Typography,
-    CardActions,
-    Button
+    Typography
 } from '@mui/material';
 
 export default function TicketDetailsPage() {
@@ -39,26 +37,17 @@ export default function TicketDetailsPage() {
                 <Typography variant="h5" component="h2">
                     {ticket.title}
                 </Typography>
-                {/* ... (display other ticket details) */}
-            </CardContent>
-            <CardContent>
-                <Typography variant="body2" color="textSecondary">
-                    {ticket.description}
+                <Typography variant="body2">
+                    Description: {ticket.description}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="body2">
                     Status: {ticket.status}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="body2">
                     Priority: {ticket.priority}
                 </Typography>
+                {/* Add more details as needed */}
             </CardContent>
-            <CardContent>
-            </CardContent>
-            <CardActions>
-                <Button size="small" onClick={() => router.push('/dashboard')}>
-                    Back
-                </Button>
-            </CardActions>
         </Card>
     );
 }

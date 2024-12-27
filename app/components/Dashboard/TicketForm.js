@@ -8,6 +8,7 @@ import {
     Select,
     MenuItem
 } from '@mui/material';
+import { InputField } from '../UI/InputField';
 
 export default function TicketForm() {
     const router = useRouter();
@@ -18,36 +19,28 @@ export default function TicketForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         try {
             const response = await fetch('/api/tickets', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title, description, status, priority }),
             });
 
             if (response.ok) {
-                alert('Ticket created successfully');
                 router.push('/dashboard');
             } else {
-                throw new Error('Failed to create ticket');
+                console.error('Error creating ticket:', await response.text());
             }
         } catch (error) {
             console.error('Error creating ticket:', error);
-            alert(error.message);
         }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <TextField
-                label="Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                fullWidth
-                margin="normal"
-            />
+            <InputField label="Title" value={title}
+                onChange={(e) => setTitle(e.target.value)} />
             <TextField
                 label="Description"
                 value={description}

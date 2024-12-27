@@ -11,7 +11,8 @@ export default function HomePage() {
 
     return (
         <div>
-            {/* Home page content (optional) */}
+            <h1>Welcome to the Ticket Management System</h1>
+            <p>Please login to access your tickets.</p>
         </div>
     );
 }

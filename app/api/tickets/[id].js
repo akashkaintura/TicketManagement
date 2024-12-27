@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '../../../lib/db';
+import { prisma } from '../../lib/db';
+import { getUserFromSession } from '../../lib/utils';
 
 export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
+    req,
+    res
 ) {
     const { id } = req.query;
 
@@ -13,7 +14,6 @@ export default async function handler(
         });
         res.status(200).json(ticket);
     } else if (req.method === 'PUT') {
-        const { id } = req.query;
         const { title, description, status, priority } = req.body;
         const user = await getUserFromSession(req);
 
@@ -32,21 +32,18 @@ export default async function handler(
         });
 
         res.status(200).json(updatedTicket);
-
     } else if (req.method === 'DELETE') {
-        if (req.method === 'DELETE') {
-            const { id } = req.query;
-            const user = await getUserFromSession(req);
+        const { id } = req.query;
+        const user = await getUserFromSession(req);
 
-            if (!user) {
-                return res.status(401).json({ error: 'Unauthorized' });
-            }
-
-            await prisma.ticket.delete({
-                where: { id: Number(id) },
-            });
-
-            res.status(204).end();
+        if (!user) {
+            return res.status(401).json({ error: 'Unauthorized' });
         }
+
+        await prisma.ticket.delete({
+            where: { id: Number(id) },
+        });
+
+        res.status(204).end();
     }
 }
